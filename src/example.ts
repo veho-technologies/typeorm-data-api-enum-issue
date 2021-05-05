@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { createConnection } from 'typeorm'
+import { createConnection, LessThan } from 'typeorm'
 import config from './config'
 import { Example, ExampleStatus } from './data/entity/Example'
 
@@ -15,7 +15,10 @@ import { Example, ExampleStatus } from './data/entity/Example'
     const created = await exampleRepo.save(exampleRepo.create({ label: Math.random().toString() }))
     console.log({ created })
 
-    const result = await exampleRepo.findOne({ status: ExampleStatus.STATUS_1 })
+    const result = await exampleRepo.findOne({
+      status: ExampleStatus.STATUS_1,
+      createdAt: LessThan(new Date(+new Date() - (60 * 1000))),
+    })
     console.log({ result })
 
     process.exit(0)

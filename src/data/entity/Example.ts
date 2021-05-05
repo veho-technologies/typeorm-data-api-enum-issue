@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
 export enum ExampleStatus {
   STATUS_1 = 'status_1',
@@ -20,5 +20,14 @@ export class Example {
     default: ExampleStatus.STATUS_1,
   })
   status: ExampleStatus
+
+  @CreateDateColumn()
+  createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
+
+  @DeleteDateColumn()
+  deletedAt?: Date
 
 }
