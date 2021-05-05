@@ -3,7 +3,7 @@ dotenv.config()
 
 const SnakeNamingStrategy = require('typeorm-naming-strategies').SnakeNamingStrategy
 import { createConnection } from 'typeorm'
-import { Example } from './entities/Example'
+import { Example, ExampleStatus } from './data/entity/Example'
 
 (async () => {
   try {
@@ -11,7 +11,7 @@ import { Example } from './entities/Example'
     const conn = await createConnection({
       name: 'default',
       type: 'aurora-data-api-pg',
-      // synchronize: true,
+      synchronize: true,
       logging: true,
       migrationsTableName: '_example_typeorm_migration_state',
       entities: [Example],
@@ -32,7 +32,7 @@ import { Example } from './entities/Example'
     const example = await exampleRepo.save(exampleRepo.create({ label: Math.random().toString() }))
     console.log({ example })
 
-    const result = await exampleRepo.find({})
+    const result = await exampleRepo.findOne({ status: ExampleStatus.STATUS_1 })
     console.log({ result })
 
     process.exit(0)
